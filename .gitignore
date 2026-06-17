@@ -1,0 +1,31 @@
+# Large genomic files
+*.bam
+*.bai
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bigwig
+*.bw
+*.fa
+*.fasta
+*.fa.gz
+*.gtf
+*.gz
+
+# R temporary files
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Large output directories
+results/
+outputs/

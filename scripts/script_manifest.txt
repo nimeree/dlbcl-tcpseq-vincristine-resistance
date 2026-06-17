@@ -1,0 +1,1462 @@
+=== 01_run_deseq2_fraction_analysis.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# Genome BAM DESeq2 per fraction (SSU/RS/DS) - LENGTH FILTERED
+# RS/SSU: 15-33 nt, DS: 40-65 nt (from filtered BAMs)
+#
+# Outputs: <THESIS_ANALYSIS_DIR>
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+
+=== 02_build_transcript_translation_index_matrix.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(riboWaltz)
+  library(data.table)
+  library(dplyr)
+  library(stringr)
+  library(rtracklayer)
+  library(Rsamtools)
+  library(tools)
+})
+
+=== 03_build_gene_level_clean_matrices.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+INFILE <- analysis_path("Translation_indexes_fixed", "transcript_translation_metrics_with_RNA_baseline_ALL_samples.csv")
+OUT_DIR <- analysis_path("Translation_indexes_fixed", "Gene_Level_Clean")
+dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
+
+mode_first <- function(x) {
+
+=== 04_qc_translation_index_plots.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+INFILE <- analysis_path("Translation_indexes_fixed", "transcript_translation_metrics_with_RNA_baseline_ALL_samples.csv")
+OUT_DIR <- analysis_path("Translation_indexes_fixed", "QC_Metric_Confidence")
+dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
+
+
+=== 05_plot_global_translation_shift_qc.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+INFILE <- analysis_path("Translation_indexes_fixed", "transcript_translation_metrics_with_RNA_baseline_ALL_samples.csv")
+OUT_DIR <- analysis_path("Translation_indexes_fixed", "Global_Shift_QC")
+dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
+
+
+=== 06_plot_translation_output_validation.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+METRIC_FILE <- analysis_path("Translation_indexes_fixed", "transcript_translation_metrics_with_RNA_baseline_ALL_samples.csv")
+OUT_DIR <- analysis_path("Translation_indexes_fixed", "Validation_Plots")
+dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
+
+
+=== 07_plot_metric_independence_validation.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+INFILE <- analysis_path("Translation_indexes_fixed", "Gene_Level_Clean", "gene_level_clean_translation_metrics_all_samples.csv")
+OUT_DIR <- analysis_path("Translation_indexes_fixed", "Validation_Plots")
+dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
+
+
+=== 08_plot_disome_sequence_validation.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(Biostrings)
+  library(ggplot2)
+})
+
+FASTA <- input_path("Homo_sapiens.GRCh38.cds.all.fa.gz")
+GENE_METRICS <- analysis_path("Translation_indexes_fixed", "Gene_Level_Clean", "gene_level_clean_collision_complete_8_samples.csv")
+OUT_DIR <- analysis_path("Translation_indexes_fixed", "Validation_Plots")
+
+=== 09_plot_han_2020_collision_validation.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+HAN_FILE <- external_path("Downloads", "NIHMS1591487-supplement-Table_S1.csv")
+GENE_METRICS <- analysis_path("Translation_indexes_fixed", "Gene_Level_Clean", "gene_level_clean_collision_complete_8_samples.csv")
+OUT_DIR <- analysis_path("Translation_indexes_fixed", "Validation_Plots")
+dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
+
+=== 10_make_deseq2_venn_diagrams.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# Venn diagrams for t2g_v3 DESeq2 genome length-filtered outputs
+# - 3-set Venns: SSU, RS, DS
+# - Separate Up and Down diagrams for each comparison
+# - Threshold: pvalue < 0.05 and abs(log2FoldChange) >= 0.7
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+
+=== 11_make_deseq2_upset_plots.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# UpSet plots for t2g_v3 DESeq2 genome length-filtered outputs
+# - 3-set UpSet plots: SSU, RS, DS
+# - Separate Up and Down plots for each comparison
+# - Threshold: pvalue < 0.05 and abs(log2FoldChange) >= 0.7
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+
+=== 12_make_deseq2_common_uncommon_excel.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# Common/uncommon gene workbook for t2g_v3 DESeq2 analyses
+# - Uses the same Venn thresholds:
+#   pvalue < 0.05 and abs(log2FoldChange) >= 0.7
+# - One workbook with:
+#   * Summary region counts
+#   * One detail sheet per comparison/direction
+# ============================================================
+
+
+=== 13_classify_translation_states.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# Translation-state classification from t2g_v3 DESeq2 outputs
+# - Uses SSU, RS, DS DESeq2 log2FC/pvalue patterns
+# - Threshold: pvalue < 0.05 and abs(log2FoldChange) >= 0.7
+# - Outputs count barplot and Excel gene lists
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+
+=== 14_classify_relaxed_translation_metrics.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# Relaxed translation-state metrics from t2g_v3 DESeq2 outputs
+# - Efficient translation: SSU Up or NS, RS Up, DS Down or NS
+# - Scanning bottleneck: SSU Up, RS Down or NS
+# - Collision/stalling: SSU Up, RS Down or NS, DS Up
+# - Metrics are non-exclusive: a gene may satisfy more than one metric.
+# - Threshold: pvalue < 0.05 and abs(log2FoldChange) >= 0.7
+# ============================================================
+
+
+=== 15_run_pathway_ora_plots.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# ORA pathway analysis for t2g_v3 DESeq2 outputs
+# Databases: Reactome, GO Biological Process, Hallmark
+# Test: one-sided hypergeometric / Fisher exact ORA
+# DE gene cutoff: raw pvalue < 0.05 and abs(log2FoldChange) >= 0.7
+# Pathway significance shown by raw pathway pvalue.
+# ============================================================
+
+suppressPackageStartupMessages({
+
+=== 16_run_limma_translation_metric_analysis.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# limma differential analysis for continuous translation metrics
+# - 2x2 design: Resistant/Sensitive x DMSO/VCR
+# - Metrics are analyzed separately
+# - Cutoffs kept consistent with DESeq2 analysis: |logFC| >= 0.7
+# - Small-n reporting threshold: FDR < 0.1
+# ============================================================
+
+suppressPackageStartupMessages({
+
+=== 17_run_limma_translation_metric_analysis_raw_pvalue.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# limma differential analysis for continuous translation metrics
+# - 2x2 design: Resistant/Sensitive x DMSO/VCR
+# - Metrics are analyzed separately
+# - Cutoffs kept consistent with DESeq2 analysis: |logFC| >= 0.7
+# - Exploratory reporting threshold: raw P.Value < 0.05
+# ============================================================
+
+suppressPackageStartupMessages({
+
+=== 18_plot_limma_rawp_recurrent_genes.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# Recurrent gene summary across raw-p limma analyses
+# - Input: Limma_translation_metrics_lfc0.7_rawP0.05 significant CSVs
+# - Finds genes significant across multiple metric/contrast analyses
+# - Writes tables plus recurrence plots
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+
+=== 19_run_gprofiler_clean_pathway_plots.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# Clean g:Profiler ORA pathway plots for limma metric up/down lists
+# Sources: Reactome, GO Biological Process, GO Cellular Component
+# Statistics: gprofiler2::gost() with g:SCS correction
+# Background: domain_scope = "annotated"
+# Filters: p < 0.05, term_size <= 500, intersection_size >= 5
+# Plot: one combined figure per list, top terms per source
+# ============================================================
+
+
+=== 20_plot_limma_pattern_signature_heatmap.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(grid)
+  library(gridExtra)
+})
+
+base_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05")
+results_dir <- file.path(base_dir, "Results")
+out_dir <- file.path(base_dir, "Multi_metric_integration", "Pattern_plots")
+
+=== 21_plot_interaction_metric_direction_upset.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(gridExtra)
+  library(grid)
+  library(cowplot)
+})
+
+base_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05")
+results_dir <- file.path(base_dir, "Results")
+
+=== 22_plot_full_cycle_genes_igv_style_coverage.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+index_dir <- file.path(base_dir, "Translation_indexes_fixed")
+out_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05", "Multi_metric_integration", "Full_cycle_IGV_style")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 23_check_full_cycle_genome_bam_coverage_numbers.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(Rsamtools)
+  library(GenomicRanges)
+})
+
+bam_dir <- input_path("cDNA", "t2g_v3_lenFiltered")
+gtf_file <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+out_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05", "Multi_metric_integration", "Full_cycle_IGV_style")
+
+=== 24_plot_simplified_translation_category_panels.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(grid)
+})
+
+base_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05")
+results_dir <- file.path(base_dir, "Results")
+out_dir <- file.path(base_dir, "Multi_metric_integration", "Pattern_plots")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 25_plot_LPXN_HNRNPD_igv_style_coverage.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+index_dir <- file.path(base_dir, "Translation_indexes_fixed")
+out_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05", "Multi_metric_integration", "Full_cycle_IGV_style_LPXN_HNRNPD")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 26_lpxn_isoform_usage_longread.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(ggplot2)
+library(scales)
+
+gene_query <- "LPXN"
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+out_dir <- analysis_path("LongRead_LPXN", "Step1_LPXN_isoform_usage")
+
+=== 27_report_lpxn_productive_translation_followups.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base_dir <- analysis_path()
+limma_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05")
+res_dir <- file.path(limma_dir, "Results")
+out_dir <- file.path(limma_dir, "Multi_metric_integration", "LPXN_HNRNPD_followup_tables")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 28_gprofiler_productive_translation_38gene_set.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+})
+
+limma_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05")
+res_dir <- file.path(limma_dir, "Results")
+follow_dir <- file.path(limma_dir, "Multi_metric_integration", "LPXN_HNRNPD_followup_tables")
+out_file <- file.path(follow_dir, "productive_translation_38gene_gprofiler_REAC_GOBP_GOCC.csv")
+
+=== 30_test_hnrnpd_auf1_targets_in_limma_interaction.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05")
+results_dir <- file.path(base_dir, "Results")
+out_dir <- file.path(base_dir, "Multi_metric_integration", "HNRNPD_AUF1_targets")
+target_file <- file.path(out_dir, "Yoon2014_AUF1_PARCLIP_gene_level_targets.csv")
+
+
+=== 31_deseq_vs_limma_agreement_stats_plots.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(scales)
+})
+
+base_dir <- analysis_path()
+limma_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05")
+limma_results_dir <- file.path(limma_dir, "Results")
+
+=== 32_validate_scanning_score_start_codon_ssu.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(scales)
+})
+
+base_dir <- analysis_path()
+index_dir <- file.path(base_dir, "Translation_indexes_fixed")
+limma_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05")
+
+=== 33_scanning_vs_ribosome_engagement_relationship.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+out_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05", "Metric_relationships")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+
+=== 34_run_psite_fraction_limma_analysis.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(limma)
+  library(ggplot2)
+  library(ggrepel)
+})
+
+base_dir <- analysis_path()
+index_dir <- file.path(base_dir, "Translation_indexes_fixed")
+
+=== 35_concordance_metric_limma_vs_psite_count_limma.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base_dir <- analysis_path()
+metric_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+count_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+out_dir <- file.path(count_dir, "Concordance_with_metric_limma")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 36_true_interaction_concordance_metric_vs_psite_count_limma.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(limma)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+count_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+metric_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+
+=== 37_make_psite_fraction_interaction_volcanoes.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(ggrepel)
+})
+
+base_dir <- analysis_path()
+out_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+
+
+=== 38_run_gprofiler_psite_fraction_limma_interaction.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# g:Profiler ORA for P-site fraction limma true-interaction lists
+# Sources: Reactome, GO Biological Process, GO Cellular Component
+# Statistics: gprofiler2::gost() with g:SCS correction
+# Interaction: (Resistant Vin - Resistant DMSO) - (Sensitive Vin - Sensitive DMSO)
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+
+=== 39_pathway_concordance_psite_limma_counts_vs_metric_and_dseq.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+
+count_path <- file.path(
+  base_dir,
+
+=== 40_check_RS_DS_limma_count_similarity.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+psite_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+pathway_dir <- file.path(psite_dir, "Pathway_gProfiler_Clean_REAC_GOBP_GOCC_true_interaction_lfc0.7_rawP0.05", "Tables")
+out_dir <- file.path(psite_dir, "RS_DS_similarity_check")
+
+=== 41_make_psite_limma_fraction_upset_plots.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# UpSet plots for P-site fraction-specific limma count outputs
+# - 3-set UpSet plots: SSU, RS, DS
+# - Separate Up and Down plots for each contrast
+# - Includes true interaction:
+#   (Resistant Vin - Resistant DMSO) - (Sensitive Vin - Sensitive DMSO)
+# - Threshold already encoded in input files: raw P < 0.05 and |logFC| >= 0.7
+# ============================================================
+
+
+=== 42_run_gprofiler_psite_fraction_limma_interaction_combined_direction.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# g:Profiler ORA for P-site fraction limma true-interaction lists
+# Up and Down genes combined into one query per fraction.
+# Sources: Reactome, GO Biological Process, GO Cellular Component
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+
+=== 43_run_gprofiler_limma_translation_metrics_interaction_combined_direction.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# g:Profiler ORA for limma translation metric interaction lists
+# Up and Down genes combined into one query per metric.
+# Sources: Reactome, GO Biological Process, GO Cellular Component
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+
+=== 44_run_GO_BP_only_combined_ORA_nice_folders.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# GO Biological Process-only g:Profiler ORA
+# Combined Up + Down significant genes for the true interaction.
+# Produces cleaner, shorter output folders for:
+#   1) P-site fraction limma counts: SSU, RS, DS
+#   2) Translation metric limma: scanning, ribosome engagement, collision, protein output
+# ============================================================
+
+suppressPackageStartupMessages({
+
+=== 45_run_GO_BP_only_baseline_combined_ORA_nice_folders.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# GO Biological Process-only g:Profiler ORA for baseline resistance
+# Combined Up + Down significant genes.
+#
+# P-site fraction limma baseline is generated here as:
+#   Resistant_DMSO - Sensitive_DMSO
+#
+# Translation metric limma baseline uses existing:
+#   Resistance_baseline_limma_all_genes.csv
+
+=== 46_run_GO_BP_only_psite_fraction_limma_all_contrasts_combined.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# GO Biological Process-only g:Profiler ORA
+# P-site fraction-specific limma count analysis
+# Up + Down significant genes combined per fraction and contrast.
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+
+=== 47_make_psite_fraction_baseline_volcanoes.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(ggrepel)
+})
+
+base_dir <- analysis_path()
+out_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+
+
+=== 48_cell_cycle_deep_dive_translation_limma.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base_dir <- analysis_path()
+psite_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+metric_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05")
+out_dir <- file.path(base_dir, "Cell_cycle_deep_dive")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 49_resistance_baseline_concordance_metric_vs_psite_count_limma.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+count_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+metric_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+out_dir <- file.path(count_dir, "Resistance_baseline_concordance_with_metric_limma")
+
+=== 50_print_convergent_metric_psite_gene_and_pathway_audit.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+})
+
+base_dir <- analysis_path()
+count_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+metric_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+
+
+=== 51_print_interaction_collision_down_mrna_transport_hit_genes.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+})
+
+base_dir <- analysis_path()
+count_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+metric_dir <- file.path(base_dir, "Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+
+
+=== 52_print_nanopore_gene_counts_for_conclusion_candidates.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+})
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+base_dir <- analysis_path()
+count_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+
+=== 53_print_nanopore_isoform_usage_selected_splicing_genes.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+
+genes <- c("HNRNPA1", "SRSF2", "LSM4", "SNRNP70", "RBM3", "RBMX", "TRA2A", "SON")
+
+
+=== 54_characterise_ensembl_isoforms_srsf2_tra2a_snrnp70.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(Biostrings)
+})
+
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+cds_fasta <- input_path("Homo_sapiens.GRCh38.cds.all.fa.gz")
+
+target_tx <- data.table(
+
+=== 55_recompute_rsrate_stablemask_translation_scores.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+f <- analysis_path("Translation_indexes_fixed", "transcript_translation_metrics_with_RNA_baseline_ALL_samples.csv")
+backup <- sub("[.]csv$", "_pre_rsrate_stablemask_backup.csv", f)
+
+if (!file.exists(backup)) {
+  file.copy(f, backup)
+
+=== 56_run_GO_BP_only_psite_fraction_limma_within_line_ORA.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# GO Biological Process-only g:Profiler ORA
+# P-site fraction-specific limma count analysis
+# Within-line contrasts only: Sensitive Vin vs DMSO and
+# Resistant Vin vs DMSO.
+# Up + Down significant genes are combined per fraction/contrast.
+# ============================================================
+
+suppressPackageStartupMessages({
+
+=== 57_preview_ORA_large_pathway_labels.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# Preview one Word-friendly ORA plot with larger pathway labels.
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(forcats)
+  library(stringr)
+})
+
+
+=== 57_rs_ds_psite_concordance_baseline_rna_abundance.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+psite_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+metric_file <- file.path(base_dir, "Translation_indexes_fixed", "transcript_translation_metrics_with_RNA_baseline_ALL_samples.csv")
+out_dir <- file.path(psite_dir, "RS_DS_psite_concordance_baseline_RNA_abundance")
+
+=== 58_regenerate_combined_ORA_plots_large_labels.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# Regenerate combined GO:BP ORA plots with Word-friendly pathway labels.
+# This uses the already-saved terms_shown_in_plot.csv files, so ORA results
+# are unchanged; only figure typography/layout is updated.
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(forcats)
+  library(stringr)
+
+=== 58_summarize_rs_ds_concordance_gene_classes.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base_dir <- analysis_path()
+psite_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+out_dir <- file.path(psite_dir, "RS_DS_similarity_check")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+
+=== 59_plot_six_gene_translation_metric_connected_dots.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(patchwork)
+})
+
+infile <- analysis_path("Translation_indexes_fixed", "Gene_Level_Clean", "gene_level_clean_translation_metrics_all_samples.csv")
+out_dir <- analysis_path("Translation_indexes_fixed", "Six_gene_metric_connected_dot_plots")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 59_run_GO_BP_only_translation_metric_within_line_ORA.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# ============================================================
+# GO Biological Process-only g:Profiler ORA
+# Translation metric limma analysis, within-line contrasts only.
+# Up + Down significant genes are combined per metric/contrast.
+# ============================================================
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+
+=== 60_print_cross_framework_synthesis_no_outputs.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# Print-only synthesis checks for p-site limma vs translation metric limma.
+# No result tables or plots are written.
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(gprofiler2)
+})
+
+BASE_DIR <- analysis_path()
+
+=== 61_plot_robust_cross_framework_heatmaps.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+# Plot robust cross-framework genes as two heatmap panels:
+# A) DS p-site + collision score robust genes
+# B) RS p-site + ribosome engagement score robust genes
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(patchwork)
+})
+
+=== 62_plot_figure_A_metric_scores_and_B_psite_counts.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(patchwork)
+})
+
+base_dir <- analysis_path()
+metric_file <- file.path(base_dir, "Translation_indexes_fixed", "Gene_Level_Clean", "gene_level_clean_translation_metrics_all_samples.csv")
+psite_dir <- file.path(base_dir, "Psite_fraction_limma_lfc0.7_rawP0.05")
+
+=== 63_plot_six_gene_resistant_baseline_metric_delta_bars.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+})
+
+base_dir <- analysis_path()
+metric_file <- file.path(base_dir, "Translation_indexes_fixed", "Gene_Level_Clean", "gene_level_clean_translation_metrics_all_samples.csv")
+out_dir <- file.path(base_dir, "Figure_A_B_gene_metric_and_psite_panels")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== 64_plot_three_gene_precomputed_metric_delta_bars.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(patchwork)
+})
+
+out_dir <- analysis_path("Figure_A_B_gene_metric_and_psite_panels")
+limma_dir <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+=== check_TRA2A_FDR_status.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+
+base <- analysis_path()
+files <- list.files(base, recursive = TRUE, full.names = TRUE, pattern = "[.]csv$")
+
+wanted_cols <- c(
+  "metric", "contrast", "gene_id", "gene_name", "gene", "gene_symbol",
+  "logFC", "log2FoldChange", "AveExpr", "t", "P.Value", "adj.P.Val",
+  "pvalue", "padj", "significant", "sig_p05_lfc0.7", "direction",
+
+=== check_TRA2B_tcpseq_metrics.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base <- analysis_path()
+
+metrics <- c(
+  ribosome_engagement = "ribosome_efficiency_score",
+  protein_output = "protein_output_score",
+
+=== check_longread_gene_coverage.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+args <- commandArgs(trailingOnly = TRUE)
+gene_query <- if (length(args)) args[1] else "MAPKBP1"
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+
+=== compare_TRA2A_ensembl_isoform_proteins.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(Biostrings)
+
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+cds_fasta <- input_path("Homo_sapiens.GRCh38.cds.all.fa.gz")
+
+txs <- c(
+  "TRA2A-201" = "ENST00000297071.9",
+  "TRA2A-202" = "ENST00000392502.8",
+
+=== count_limma_interaction_translation_patterns.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+contrast <- "Interaction"
+p_cut <- 0.05
+lfc_cut <- 0.7
+
+
+=== count_simplified_interaction_translation_categories.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+})
+
+base <- analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05", "Results")
+contrast <- "Interaction"
+p_cut <- 0.05
+lfc_cut <- 0.7
+
+
+=== diagnose_lncRNA_dominance.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(tidyr)
+  library(rtracklayer)
+  library(Rsubread)
+})
+
+gtf_file <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+
+=== inspect_sudhl_tra2a_longread.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+
+e <- new.env()
+load(rdata, envir = e)
+
+gtf_lines <- readLines(gtf)
+
+=== integrate_TRA2A_targets_isoform_switch_TCPseq.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+
+base_dir <- analysis_path()
+longread_dir <- file.path(base_dir, "LongRead_TRA2A")
+step2_file <- file.path(longread_dir, "Step2_TRA2A_targets_isoform_usage", "TRA2A_target_genes_SUDHL8_isoform_usage_tests.csv")
+step3_file <- file.path(longread_dir, "Step3_GenomeWide_isoform_usage_screen", "SUDHL8_genomewide_isoform_usage_screen.csv")
+out_dir <- file.path(longread_dir, "Step4_IsoformSwitch_TCPseq_integration")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+
+=== make_translation_metric_schematic.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(grid)
+})
+
+out_dir <- analysis_path("Translation_metric_schematic")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+box <- function(xmin, xmax, ymin, ymax, label, fill, color = "#253041", size = 3.4, fontface = "plain") {
+
+=== plot_TRA2A_ensembl_protein_isoform_comparison.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(ggplot2)
+library(patchwork)
+
+out_dir <- analysis_path("LongRead_TRA2A", "TRA2A_protein_isoform_comparison")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+seqs <- c(
+  "TRA2A-201" = "MSDVEENNFEGRESRSQSKSPTGTPARVKSESRSGSRSPSRVSKHSESHSRSRSKSRSRSRRHSHRRYTRSRSHSHSHRRRSRSRSYTPEYRRRRSRSHSPMSNRRRHTGSRANPDPNTCLGVFGLSLYTTERDLREVFSRYGPLSGVNVVYDQRTGRSRGFAFVYFERIDDSKEAMERANGMELDGRRIRVDYSITKRAHTPTPGIYMGRPTHSGGGGGGGGGGGGGGGGRRRDSYYDRGYDRGYDRYEDYDYRYRRRSPSPYYSRYRSRSRSRSYSPRRY",
+
+=== plot_TRA2A_locus_ribosome_coverage_by_fraction.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(data.table)
+  library(ggplot2)
+  library(zoo)
+})
+
+base_dir <- analysis_path()
+index_dir <- file.path(base_dir, "Translation_indexes_fixed")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+
+=== regenerate_end_repair_biotype_plot.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(Rsamtools)
+  library(S4Vectors)
+  library(rtracklayer)
+  library(dplyr)
+  library(tidyr)
+  library(readr)
+  library(ggplot2)
+  library(Rsubread)
+
+=== regenerate_end_repair_biotype_plot_subsample_n20.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+suppressPackageStartupMessages({
+  library(Rsamtools)
+  library(S4Vectors)
+  library(rtracklayer)
+  library(dplyr)
+  library(tidyr)
+  library(readr)
+  library(ggplot2)
+  library(Rsubread)
+
+=== step1_tra2a_isoform_usage_longread.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(ggplot2)
+library(patchwork)
+library(scales)
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+out_dir <- analysis_path("LongRead_TRA2A", "Step1_TRA2A_isoform_usage")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+=== step2_tra2a_targets_isoform_usage_sudhl8.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(GenomicRanges)
+library(ggplot2)
+library(scales)
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+out_dir <- analysis_path("LongRead_TRA2A", "Step2_TRA2A_targets_isoform_usage")
+peak_dir <- file.path(out_dir, "ENCODE_TRA2A_eCLIP")
+
+=== step3_genomewide_isoform_usage_screen_sudhl8.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(ggplot2)
+library(scales)
+
+rdata <- input_path("SUDHL.RData")
+gtf <- input_path("Homo_sapiens.GRCh38.114.chr.gtf")
+base_out <- analysis_path("LongRead_TRA2A")
+out_dir <- file.path(base_out, "Step3_GenomeWide_isoform_usage_screen")
+target_file <- file.path(base_out, "Step2_TRA2A_targets_isoform_usage", "TRA2A_eCLIP_target_genes_from_peak_gene_overlap.csv")
+
+=== step3b_tra2a_cds_motif_enrichment_sudhl8.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(Biostrings)
+library(ggplot2)
+
+base_out <- analysis_path("LongRead_TRA2A")
+step3_dir <- file.path(base_out, "Step3_GenomeWide_isoform_usage_screen")
+out_dir <- file.path(base_out, "Step3B_TRA2A_CDS_motif_enrichment")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+
+=== step3c_tra2a_intronic_flank_motif_enrichment_sudhl8.R ===
+# Load portable path helpers when run from the repository root or scripts directory.
+.local_config <- file.path("config", "paths.R")
+if (!file.exists(.local_config)) .local_config <- file.path("..", "config", "paths.R")
+if (file.exists(.local_config)) source(.local_config)
+rm(.local_config)
+
+library(data.table)
+library(Biostrings)
+library(ggplot2)
+
+base_out <- analysis_path("LongRead_TRA2A")
+step3_dir <- file.path(base_out, "Step3_GenomeWide_isoform_usage_screen")
+out_dir <- file.path(base_out, "Step3C_TRA2A_intronic_flank_motif_enrichment")
+dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+
+=== 29_hnrnpd_auf1_target_interaction_test.py ===
+from pathlib import Path
+import sys
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+from config.paths import analysis_path, input_path, project_resource_path, external_path
+
+import os
+import sys
+
+import pandas as pd
+
+supp_xls = project_resource_path("HNRNPD_AUF1_targets", "Yoon2014_AUF1_PARCLIP_supp_table1.xls")
+out_dir = analysis_path("Limma_translation_metrics_lfc0.7_rawP0.05", "Multi_metric_integration", "HNRNPD_AUF1_targets")
+os.makedirs(out_dir, exist_ok=True)
+
