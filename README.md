@@ -50,8 +50,6 @@ Run `session_info.R` to see the exact package versions used in this analysis.
 
 ## Data Access
 
-Raw sequencing data (TCP-seq and Nanopore direct RNA-seq) are deposited at NCBI GEO under accession **[ACCESSION NUMBER]**.
-
 External reference files required by scripts in `data/external/` are described in `data/external/README.md`.
 
 Reference genome and annotation files used:
